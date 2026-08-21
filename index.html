@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Inteligente do Fluxo Padrão da Regulação Estadual</title>
+  <link rel="icon" href="assets/favicon.ico">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <!-- DataTables (tema Bootstrap 5) -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.11/css/dataTables.bootstrap5.min.css">
+  <!-- Estilo institucional do painel -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==================================================================== -->
+  <!-- CABEÇALHO INSTITUCIONAL (Seção 35)                                    -->
+  <!-- ==================================================================== -->
+  <header class="cabecalho-institucional">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center gap-3 py-2 flex-wrap">
+        <img id="logo-goias" src="assets/logo-goias.png" alt="Governo do Estado de Goiás" class="logo-goias">
+        <div class="flex-grow-1">
+          <div class="fw-bold" id="texto-orgao-1">Governo do Estado de Goiás</div>
+          <div id="texto-orgao-2">Secretaria de Estado da Saúde</div>
+        </div>
+        <div class="text-md-end">
+          <h1 class="h5 mb-0 titulo-painel" id="texto-titulo-painel">Painel Inteligente do Fluxo Padrão da Regulação Estadual</h1>
+          <div id="status-base" class="status-base status-base--atualizando mt-1">
+            <i class="fa-solid fa-rotate fa-spin"></i> Atualizando dados...
+          </div>
+          <div id="ultima-sincronizacao" class="small text-muted"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="area-alertas" class="container-fluid mt-2"></div>
+
+  <main class="container-fluid py-3">
+
+    <!-- ================================================================ -->
+    <!-- KPIs INICIAIS (Seção 32)                                          -->
+    <!-- ================================================================ -->
+    <section class="row g-3 mb-3" aria-label="Indicadores gerais da base">
+      <div class="col-6 col-md-2">
+        <div class="cartao-kpi"><div class="cartao-kpi__valor" id="kpi-unidades">—</div><div class="cartao-kpi__rotulo">Unidades Executantes</div></div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="cartao-kpi"><div class="cartao-kpi__valor" id="kpi-especialidades">—</div><div class="cartao-kpi__rotulo">Especialidades</div></div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="cartao-kpi"><div class="cartao-kpi__valor" id="kpi-municipios-solicitantes">—</div><div class="cartao-kpi__rotulo">Municípios Solicitantes</div></div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="cartao-kpi"><div class="cartao-kpi__valor" id="kpi-municipios-executantes">—</div><div class="cartao-kpi__rotulo">Municípios Executantes</div></div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="cartao-kpi"><div class="cartao-kpi__valor" id="kpi-ofertas">—</div><div class="cartao-kpi__rotulo">Ofertas Assistenciais</div></div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="cartao-kpi cartao-kpi--acao">
+          <button type="button" id="btn-abrir-qualidade" class="btn btn-link p-0 text-start w-100">
+            <i class="fa-solid fa-shield-heart"></i><br>Qualidade da Base
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- TELA DE PESQUISA (Seção 19)                                       -->
+    <!-- ================================================================ -->
+    <section class="cartao-pesquisa mb-4">
+      <form id="form-pesquisa" class="row g-3" novalidate>
+        <div class="col-md-4">
+          <label for="input-municipio-solicitante" class="form-label form-label--obrigatorio">Município Solicitante</label>
+          <input type="text" class="form-control" id="input-municipio-solicitante" list="lista-municipios-solicitantes"
+                 placeholder="Digite para buscar..." autocomplete="off" required>
+          <datalist id="lista-municipios-solicitantes"></datalist>
+        </div>
+
+        <div class="col-md-4">
+          <label for="select-especialidade" class="form-label form-label--obrigatorio">Especialidade</label>
+          <select class="form-select" id="select-especialidade" required>
+            <option value="">Selecione a especialidade...</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="select-tipo-leito" class="form-label">Tipo de Leito</label>
+          <select class="form-select" id="select-tipo-leito">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="select-macrorregiao" class="form-label">Macrorregião</label>
+          <select class="form-select" id="select-macrorregiao">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="select-complexidade" class="form-label">Complexidade</label>
+          <select class="form-select" id="select-complexidade">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="input-particularidades" class="form-label">Pesquisar nas Particularidades</label>
+          <input type="text" class="form-control" id="input-particularidades" placeholder="Termo livre (opcional)">
+        </div>
+
+        <div class="col-12 botoes-pesquisa">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+          </button>
+          <button type="button" id="btn-limpar-filtros" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-eraser"></i> Limpar Filtros
+          </button>
+          <button type="button" id="btn-atualizar-base" class="btn btn-outline-primary">
+            <i class="fa-solid fa-rotate"></i> Atualizar Base
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- KPIs DO RESULTADO DA PESQUISA (Seção 32)                          -->
+    <!-- ================================================================ -->
+    <section id="area-kpis-pesquisa" class="row g-3 mb-3 d-none">
+      <div class="col-6 col-md-3">
+        <div class="cartao-kpi"><div class="cartao-kpi__valor" id="kpi-resultados-encontrados">—</div><div class="cartao-kpi__rotulo">Resultados Encontrados</div></div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cartao-kpi cartao-kpi--destaque"><div class="cartao-kpi__valor" id="kpi-menor-distancia">—</div><div class="cartao-kpi__rotulo">Menor Distância Encontrada</div></div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- RESULTADO PRINCIPAL (Seção 28)                                    -->
+    <!-- ================================================================ -->
+    <section id="area-resultados" class="cartao-resultados d-none">
+      <div class="table-responsive">
+        <table id="tabela-resultados" class="table table-hover align-middle w-100">
+          <thead>
+            <tr>
+              <th>Ordem</th>
+              <th>Distância</th>
+              <th>Unidade Executante</th>
+              <th>Município Executante</th>
+              <th>Especialidade</th>
+              <th class="text-center">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-resultados"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="area-sem-resultado" class="cartao-resultados text-center py-5 d-none">
+      <i class="fa-solid fa-magnifying-glass-minus fa-2x text-muted mb-3"></i>
+      <p class="mb-0 text-muted">Nenhuma oferta compatível encontrada para os critérios informados.</p>
+    </section>
+
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- AVISO INSTITUCIONAL (Seção 45)                                        -->
+  <!-- ==================================================================== -->
+  <footer class="rodape-institucional">
+    <div class="container-fluid">
+      <p class="mb-0 small" id="texto-aviso-institucional"></p>
+    </div>
+  </footer>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL: VER DETALHES (Seção 29)                                        -->
+  <!-- ==================================================================== -->
+  <div class="modal fade" id="modal-detalhes" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-hospital"></i> Detalhes da Oferta Assistencial</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body" id="corpo-modal-detalhes"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL: QUALIDADE DA BASE (Seção 33)                                   -->
+  <!-- ==================================================================== -->
+  <div class="modal fade" id="modal-qualidade-base" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-shield-heart"></i> Qualidade da Base</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body" id="conteudo-qualidade-base"></div>
+        <div class="modal-footer">
+          <button type="button" id="btn-exportar-qualidade" class="btn btn-outline-success">
+            <i class="fa-solid fa-file-csv"></i> Exportar Relatório
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- DEPENDÊNCIAS (Seção 39)                                               -->
+  <!-- ==================================================================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.11/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.11/js/dataTables.bootstrap5.min.js"></script>
+  <!-- PapaParse 5.6.0: a 5.4.1 tem bug de parsing confirmado que corrompia
+       silenciosamente registros com particularidades longas (ex.: BATUÍRA) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.6.0/papaparse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <!-- ==================================================================== -->
+  <!-- CONFIGURAÇÃO E MÓDULOS DO PAINEL (Seção 40)                           -->
+  <!-- ==================================================================== -->
+  <script src="config.js"></script>
+  <script src="js/normalizacao.js"></script>
+  <script src="js/utilitarios.js"></script>
+  <script src="js/distancia.js"></script>
+  <script src="js/filtros.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/pesquisa.js"></script>
+  <script src="js/resultados.js"></script>
+  <script src="js/qualidadeDados.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
