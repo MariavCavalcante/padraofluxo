@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel Inteligente do Fluxo Padrão da Regulação Estadual - Secretaria de Estado da Saúde de Goiás">
+
+  <title>Painel Inteligente - Regulação Estadual</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- CSS Customizado -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="barra-amarela"></div>
+
+  <!-- CABEÇALHO INSTITUCIONAL -->
+  <header class="header-institucional">
+    <div class="container-fluid">
+      <div class="row align-items-center gy-3">
+        <div class="col-lg-4">
+          <div class="logo-container">
+            <img src="brasao-goias.svg" alt="Brasão do Estado de Goiás" class="brasao-goias">
+            <div class="logo-texto">SES-GO</div>
+          </div>
+        </div>
+        <div class="col-lg-4 text-center">
+          <h1 class="titulo-principal">Painel Inteligente do Fluxo Padrão da Regulação Estadual</h1>
+          <div class="info-institucional">
+            <small>Secretaria de Estado da Saúde de Goiás</small><br>
+            <small>Superintendência de Regulação, Controle e Avaliação · Gerência de Regulação de Internações (GERINT)</small>
+          </div>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <div class="status-sincronizacao">
+            <div class="status-item">
+              <span class="status-label">Base de dados:</span>
+              <span id="statusBase" class="badge bg-secondary">
+                <i class="fas fa-circle"></i> Carregando...
+              </span>
+            </div>
+            <button id="btnAtualizarBase" class="btn btn-outline-light btn-sm mt-2" title="Atualizar Base de Dados">
+              <i class="fas fa-sync-alt"></i> Atualizar Base
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- INDICADORES SUPERIORES -->
+  <section class="indicadores-superiores">
+    <div class="container-fluid">
+      <div class="row g-3">
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card-indicador">
+            <div class="indicador-valor" id="totalEspecialidades">0</div>
+            <div class="indicador-label">Especialidades</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card-indicador">
+            <div class="indicador-valor" id="totalUnidades">0</div>
+            <div class="indicador-label">Unidades Executantes</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card-indicador">
+            <div class="indicador-valor" id="totalMunicipios">0</div>
+            <div class="indicador-label">Municípios Executantes</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card-indicador">
+            <div class="indicador-valor" id="totalResultados">0</div>
+            <div class="indicador-label">Resultados Encontrados</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card-indicador">
+            <div class="indicador-valor" id="menorDistancia">--</div>
+            <div class="indicador-label">Menor Distância</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card-indicador">
+            <div class="indicador-valor" id="dataUltima">--</div>
+            <div class="indicador-label">Última Atualização</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÁREA DE BUSCA E FILTROS -->
+  <section class="area-busca">
+    <div class="container-fluid">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary-subtle">
+          <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros de Busca</h5>
+        </div>
+        <div class="card-body">
+          <form id="formularioBusca" name="formularioBusca" autocomplete="off">
+            <div class="row">
+              <!-- Município Solicitante (Obrigatório) -->
+              <div class="col-md-4 mb-3 posicao-relativa">
+                <label for="municipioSolicitante" class="form-label">
+                  Município Solicitante <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="municipioSolicitante"
+                  name="municipioSolicitante"
+                  placeholder="Digite o nome do município"
+                  autocomplete="off">
+                <div class="lista-sugestoes" id="sugestoesMunicipio" style="display: none;">
+                  <ul id="listaMunicipios" class="list-unstyled mb-0"></ul>
+                </div>
+              </div>
+
+              <!-- Especialidade (Obrigatório) -->
+              <div class="col-md-4 mb-3">
+                <label for="especialidade" class="form-label">
+                  Especialidade <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="especialidade" name="especialidade">
+                  <option value="">-- Selecione uma especialidade --</option>
+                </select>
+              </div>
+
+              <!-- Tipo de Leito -->
+              <div class="col-md-2 mb-3">
+                <label for="tipoLeito" class="form-label">Tipo de Leito</label>
+                <select class="form-select" id="tipoLeito" name="tipoLeito">
+                  <option value="">-- Todos --</option>
+                </select>
+              </div>
+
+              <!-- Complexidade -->
+              <div class="col-md-2 mb-3">
+                <label for="complexidade" class="form-label">Complexidade</label>
+                <select class="form-select" id="complexidade" name="complexidade">
+                  <option value="">-- Todas --</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Particularidades (Busca textual) -->
+              <div class="col-md-12 mb-3">
+                <label for="particularidades" class="form-label">Busca textual (particularidades, fluxo, cobertura SAD)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="particularidades"
+                  name="particularidades"
+                  placeholder="Ex: AVC, TCE, trauma, gestante, etc.">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex gap-2 flex-wrap">
+                  <button type="button" class="btn btn-primary" id="btnPesquisar">
+                    <i class="fas fa-search"></i> Pesquisar
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btnLimparFiltros">
+                    <i class="fas fa-broom"></i> Limpar Filtros
+                  </button>
+                  <button type="button" class="btn btn-info" id="btnExportarResultados" style="display: none;">
+                    <i class="fas fa-download"></i> Exportar
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary" id="btnImprimirResultados" style="display: none;">
+                    <i class="fas fa-print"></i> Imprimir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÁREA DE RESULTADOS -->
+  <section class="area-resultados">
+    <div class="container-fluid">
+      <!-- Mensagem de carregamento -->
+      <div id="mensagemCarregamento" class="alert alert-info" style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i> Atualizando dados...
+      </div>
+
+      <!-- Mensagem de erro -->
+      <div id="mensagemErro" class="alert alert-danger" style="display: none;">
+        <i class="fas fa-exclamation-triangle"></i> <span id="textoErro"></span>
+      </div>
+
+      <!-- Tabela de Resultados -->
+      <div id="containerResultados" style="display: none;">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success-subtle d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-table"></i> Resultados da Pesquisa</h5>
+            <span class="result-count" id="rotuloResultados"></span>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="tabelaResultados" class="table table-striped table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Ranking</th>
+                    <th>Distância</th>
+                    <th>Unidade Executante</th>
+                    <th>Município Executante</th>
+                    <th>Especialidade</th>
+                    <th>Complexidade</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="corpoTabela"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensagem quando nenhum resultado encontrado -->
+      <div id="nenhumResultado" class="alert alert-warning" style="display: none;">
+        <i class="fas fa-search"></i> Nenhum resultado encontrado com os critérios selecionados.
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL DE DETALHES -->
+  <div class="modal fade" id="modalParticularidades" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header modal-header-goias">
+          <h5 class="modal-title"><i class="fas fa-file-alt"></i> Detalhes Completos</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="conteudoModalParticularidades"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE QUALIDADE DOS DADOS -->
+  <div class="modal fade" id="modalQualidadeDados" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header modal-header-goias">
+          <h5 class="modal-title"><i class="fas fa-clipboard-check"></i> Qualidade da Base</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="conteudoQualidadeDados"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnExportarQualidade">
+            <i class="fas fa-download"></i> Exportar Inconsistências
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="container-fluid">
+      <div class="row align-items-center gy-2">
+        <div class="col-md-8">
+          <p class="aviso-institucional mb-0">
+            <i class="fas fa-info-circle"></i> Este painel constitui ferramenta de apoio à Regulação Estadual.
+            As informações apresentadas não substituem a análise técnica e a decisão do profissional regulador.
+          </p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <button class="btn btn-sm btn-outline-light" id="btnQualidadeDados">
+            <i class="fas fa-chart-bar"></i> Qualidade da Base
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <script src="config.js"></script>
+  <script src="normalizacao.js"></script>
+  <script src="campos.js"></script>
+  <script src="leitorDados.js"></script>
+  <script src="ranking.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

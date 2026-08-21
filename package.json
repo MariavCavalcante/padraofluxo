@@ -1,0 +1,25 @@
+{
+  "name": "painel-regulacao-estadual",
+  "version": "1.0.0",
+  "description": "Painel Inteligente do Fluxo Padrão da Regulação Estadual",
+  "main": "index.html",
+  "scripts": {
+    "dev": "http-server",
+    "build": "echo 'Static project - no build needed'",
+    "start": "http-server -p 8000"
+  },
+  "keywords": [
+    "saúde",
+    "regulação",
+    "goiás",
+    "sus",
+    "dashboard",
+    "internação"
+  ],
+  "author": "Secretaria de Estado da Saúde de Goiás",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MariavCavalcante/GERINT"
+  }
+}

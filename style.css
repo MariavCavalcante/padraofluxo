@@ -1,0 +1,308 @@
+:root {
+  /* Cores oficiais do Estado de Goiás */
+  --goias-azul: #00519e;
+  --goias-azul-escuro: #003a71;
+  --goias-verde: #00766f;
+  --goias-verde-escuro: #005a55;
+  --goias-amarelo: #ffdc0a;
+  --goias-branco: #ffffff;
+  --goias-fundo: #f4f7f9;
+  --goias-cinza-100: #eef2f5;
+  --goias-cinza-200: #dbe3e8;
+  --goias-cinza-500: #6b7780;
+  --goias-cinza-800: #263238;
+  --sucesso: #198754;
+  --alerta: #b7791f;
+  --erro: #b42318;
+  --radius: 14px;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--goias-fundo);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--goias-cinza-800);
+}
+
+.barra-amarela {
+  height: 6px;
+  width: 100%;
+  background: var(--goias-amarelo);
+}
+
+/* ---------- CABEÇALHO ---------- */
+.header-institucional {
+  color: var(--goias-branco);
+  background: linear-gradient(135deg, var(--goias-azul-escuro), var(--goias-azul));
+  box-shadow: 0 5px 22px rgba(0, 48, 84, 0.18);
+  padding: 18px 0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brasao-goias {
+  width: 52px;
+  height: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.logo-texto {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titulo-principal {
+  font-size: clamp(1.05rem, 2vw, 1.5rem);
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+
+.info-institucional {
+  font-size: 0.82rem;
+  opacity: 0.88;
+  line-height: 1.4;
+}
+
+.status-sincronizacao {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media (min-width: 992px) {
+  .status-sincronizacao {
+    align-items: flex-end;
+  }
+}
+
+.status-label {
+  font-size: 0.78rem;
+  opacity: 0.85;
+  margin-right: 6px;
+}
+
+/* ---------- INDICADORES ---------- */
+.indicadores-superiores {
+  padding: 18px 0;
+}
+
+.card-indicador {
+  background: var(--goias-branco);
+  border-top: 4px solid var(--goias-verde);
+  border-radius: var(--radius);
+  box-shadow: 0 5px 20px rgba(31, 64, 86, 0.075);
+  padding: 14px 10px;
+  text-align: center;
+  height: 100%;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card-indicador:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(31, 64, 86, 0.12);
+}
+
+.indicador-valor {
+  color: var(--goias-azul-escuro);
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.indicador-label {
+  color: var(--goias-cinza-500);
+  font-size: 0.76rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ---------- BUSCA ---------- */
+.area-busca {
+  padding-bottom: 12px;
+}
+
+.card {
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: 0 5px 20px rgba(31, 64, 86, 0.075);
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.86rem;
+}
+
+.form-select,
+.form-control {
+  border-radius: 9px;
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: var(--goias-azul);
+  box-shadow: 0 0 0 0.2rem rgba(0, 92, 169, 0.15);
+}
+
+.btn-primary {
+  background: var(--goias-azul);
+  border-color: var(--goias-azul);
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--goias-azul-escuro);
+  border-color: var(--goias-azul-escuro);
+}
+
+.posicao-relativa {
+  position: relative;
+}
+
+.lista-sugestoes {
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  left: 12px;
+  right: 12px;
+  background: var(--goias-branco);
+  border: 1px solid var(--goias-cinza-200);
+  border-radius: 9px;
+  box-shadow: 0 10px 24px rgba(31, 64, 86, 0.18);
+  max-height: 240px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+
+.lista-sugestoes ul {
+  margin: 0;
+  padding: 4px 0;
+}
+
+.lista-sugestoes li {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.lista-sugestoes li:hover,
+.lista-sugestoes li.ativo {
+  background: rgba(0, 92, 169, 0.08);
+}
+
+/* ---------- RESULTADOS ---------- */
+.result-count {
+  display: inline-flex;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: var(--goias-cinza-100);
+  color: var(--goias-cinza-500);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.distance-pill {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(0, 92, 169, 0.09);
+  border: 1px solid rgba(0, 92, 169, 0.33);
+  color: var(--goias-azul-escuro);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.distance-pill.sem-dado {
+  background: var(--goias-cinza-100);
+  border-color: var(--goias-cinza-200);
+  color: var(--goias-cinza-500);
+  font-weight: 600;
+}
+
+.badge-mais-proxima {
+  background: var(--sucesso);
+}
+
+.table {
+  font-size: 0.87rem;
+}
+
+.table thead th {
+  background: var(--goias-azul-escuro);
+  color: #ffffff;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.table > tbody > tr:hover > * {
+  background: rgba(0, 92, 169, 0.045);
+}
+
+/* ---------- MODAIS ---------- */
+.modal-header-goias {
+  color: #ffffff;
+  background: var(--goias-azul-escuro);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.detail-item {
+  padding: 12px 14px;
+  border: 1px solid var(--goias-cinza-200);
+  border-radius: 10px;
+  background: var(--goias-branco);
+}
+
+.detail-item.full {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  display: block;
+  color: var(--goias-cinza-500);
+  font-size: 0.74rem;
+  margin-bottom: 3px;
+}
+
+.detail-value {
+  font-weight: 700;
+  white-space: pre-wrap;
+}
+
+/* ---------- RODAPÉ ---------- */
+.rodape {
+  color: var(--goias-branco);
+  background: var(--goias-azul-escuro);
+  border-top: 4px solid var(--goias-amarelo);
+  padding: 16px 0;
+  margin-top: 24px;
+}
+
+.aviso-institucional {
+  font-size: 0.82rem;
+  opacity: 0.92;
+}
+
+@media (max-width: 767.98px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
