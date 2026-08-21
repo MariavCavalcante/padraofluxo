@@ -1,0 +1,268 @@
+/**
+ * ============================================================================
+ * STYLE.CSS
+ * Identidade visual institucional (Seções 34, 35, 36): branco, azul e tons
+ * neutros como base, com verde e amarelo usados estrategicamente. Inspirado
+ * em dashboards corporativos / Power BI. Responsivo (Seção 38).
+ * ============================================================================
+ */
+
+:root {
+  --go-verde: #19A32A;
+  --go-amarelo: #FFDE00;
+  --go-azul: #00509F;
+  --go-branco: #FFFFFF;
+  --go-cinza-100: #F5F7FA;
+  --go-cinza-200: #E7EBF0;
+  --go-cinza-400: #ABB4BF;
+  --go-cinza-700: #4A5568;
+  --go-cinza-900: #1F2937;
+  --sombra-cartao: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--go-cinza-100);
+  color: var(--go-cinza-900);
+  font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.cabecalho-institucional {
+  background: var(--go-branco);
+  border-bottom: 4px solid var(--go-azul);
+  box-shadow: var(--sombra-cartao);
+}
+
+.logo-goias {
+  height: 56px;
+  width: auto;
+  object-fit: contain;
+}
+
+.titulo-painel {
+  color: var(--go-azul);
+  font-weight: 700;
+}
+
+#texto-orgao-1 { color: var(--go-cinza-900); }
+#texto-orgao-2, #texto-orgao-3 { color: var(--go-cinza-700); }
+
+.status-base {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.status-base--ok { color: var(--go-verde); }
+.status-base--atualizando { color: var(--go-azul); }
+.status-base--erro { color: #C0392B; }
+
+.cartao-kpi {
+  background: var(--go-branco);
+  border-radius: 10px;
+  box-shadow: var(--sombra-cartao);
+  padding: 14px 16px;
+  height: 100%;
+  border-top: 3px solid var(--go-azul);
+}
+.cartao-kpi__valor {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--go-azul);
+  line-height: 1.1;
+}
+.cartao-kpi__rotulo {
+  font-size: 0.78rem;
+  color: var(--go-cinza-700);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-top: 4px;
+}
+.cartao-kpi--destaque {
+  border-top-color: var(--go-verde);
+}
+.cartao-kpi--destaque .cartao-kpi__valor {
+  color: var(--go-verde);
+}
+.cartao-kpi--acao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-top-color: var(--go-amarelo);
+}
+.cartao-kpi--acao .btn-link {
+  color: var(--go-cinza-900);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.cartao-kpi--acao i {
+  color: var(--go-amarelo);
+  filter: drop-shadow(0 0 0.5px rgba(0,0,0,0.35));
+}
+
+.cartao-pesquisa {
+  background: var(--go-branco);
+  border-radius: 10px;
+  box-shadow: var(--sombra-cartao);
+  padding: 20px;
+  border-left: 4px solid var(--go-azul);
+}
+
+.form-label--obrigatorio::after {
+  content: ' *';
+  color: #C0392B;
+}
+
+.botoes-pesquisa {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  background-color: var(--go-azul);
+  border-color: var(--go-azul);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #003D7A;
+  border-color: #003D7A;
+}
+.btn-outline-primary {
+  color: var(--go-azul);
+  border-color: var(--go-azul);
+}
+.btn-outline-primary:hover {
+  background-color: var(--go-azul);
+  border-color: var(--go-azul);
+}
+.btn-outline-success {
+  color: var(--go-verde);
+  border-color: var(--go-verde);
+}
+.btn-outline-success:hover {
+  background-color: var(--go-verde);
+  border-color: var(--go-verde);
+}
+
+.cartao-resultados {
+  background: var(--go-branco);
+  border-radius: 10px;
+  box-shadow: var(--sombra-cartao);
+  padding: 16px;
+}
+
+.linha-mais-proxima {
+  background-color: rgba(25, 163, 42, 0.06);
+}
+
+.badge-distancia {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--go-azul);
+  background: rgba(0, 80, 159, 0.08);
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.badge-distancia i { color: var(--go-azul); }
+.badge-distancia--desconhecida {
+  color: var(--go-cinza-700);
+  background: var(--go-cinza-200);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.selo {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+.selo--mais-proxima {
+  background-color: var(--go-verde);
+  color: var(--go-branco);
+}
+.selo--intermediacao {
+  background-color: var(--go-cinza-200);
+  color: var(--go-cinza-700);
+  border: 1px solid var(--go-cinza-400);
+}
+
+.detalhe-campo { margin-bottom: 4px; }
+.detalhe-rotulo {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--go-cinza-700);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.detalhe-valor {
+  font-size: 0.95rem;
+  color: var(--go-cinza-900);
+}
+.detalhe-valor--longo {
+  white-space: pre-wrap;
+  background: var(--go-cinza-100);
+  border-radius: 8px;
+  padding: 12px;
+  line-height: 1.5;
+}
+.detalhe-valor--longo mark {
+  background-color: var(--go-amarelo);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.titulo-secao-qualidade {
+  color: var(--go-azul);
+  font-weight: 700;
+  border-bottom: 2px solid var(--go-cinza-200);
+  padding-bottom: 4px;
+}
+.lista-qualidade {
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 0.88rem;
+}
+
+.rodape-institucional {
+  background: var(--go-cinza-900);
+  color: var(--go-cinza-200);
+  padding: 12px 0;
+  margin-top: 32px;
+}
+
+@media (max-width: 767.98px) {
+  .cabecalho-institucional .text-md-end { text-align: left !important; margin-top: 8px; }
+  .logo-goias { height: 44px; }
+  .cartao-kpi__valor { font-size: 1.3rem; }
+  .botoes-pesquisa .btn { flex: 1 1 45%; }
+
+  #tabela-resultados th:nth-child(1),
+  #tabela-resultados td:nth-child(1) {
+    display: none;
+  }
+}
+
+@media print {
+  .cabecalho-institucional, .cartao-pesquisa, .rodape-institucional,
+  #area-alertas, .botoes-pesquisa, #area-kpis-pesquisa,
+  #tabela-resultados th:last-child, #tabela-resultados td:last-child,
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter,
+  .dataTables_wrapper .dataTables_paginate,
+  .dataTables_wrapper .dataTables_info {
+    display: none !important;
+  }
+  .cartao-resultados { box-shadow: none; padding: 0; }
+  body { background: var(--go-branco); }
+}
